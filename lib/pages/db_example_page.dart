@@ -16,6 +16,16 @@ class DbExamplePage extends StatelessWidget {
               },
               child: Text("Crear db"),
             ),
+            ElevatedButton(
+              onPressed: () {
+                NotasDatabase dbNotas = NotasDatabase();
+                dbNotas.insertarNota(
+                  "Compras de la semana",
+                  "comprar pan, huevos, sal y pimienta",
+                );
+              },
+              child: Text("Insertar Nota"),
+            ),
           ],
         ),
       ),

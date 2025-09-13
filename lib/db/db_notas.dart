@@ -17,4 +17,9 @@ class NotasDatabase {
       },
     );
   }
+
+  Future<void> insertarNota(String titulo, String contenido) async {
+    final db = await initDB();
+    await db.insert("NOTAS", {"titulo": titulo, "contenido": contenido});
+  }
 }
