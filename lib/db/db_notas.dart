@@ -4,7 +4,20 @@ import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqlite_api.dart';
 
 class NotasDatabase {
-  Future<Database> initDB() async {
+  // SINGLETON
+  NotasDatabase._internal(); //CONSTRUCTOR PRIVADO
+  static final NotasDatabase _instance = NotasDatabase._internal();
+  factory NotasDatabase() => _instance;
+
+  Database? _database;
+
+  Future<Database> get database async {
+    if (_database != null) return _database!;
+    _database = await _initDB();
+    return _database!;
+  }
+
+  Future<Database> _initDB() async {
     final pathDb = await getDatabasesPath();
     final path = join(pathDb, "notas.db");
 
@@ -21,18 +34,18 @@ class NotasDatabase {
 
   // INSERTAR
   Future<void> insertarNota(String titulo, String contenido) async {
-    final db = await initDB();
+    final db = await _initDB();
     await db.insert("NOTAS", {"titulo": titulo, "contenido": contenido});
   }
 
   Future<void> insertarNotaModel(NotaModel notaModel) async {
-    final db = await initDB();
+    final db = await _initDB();
     await db.insert("NOTAS", notaModel.toMap());
   }
 
   // OBTENER
   Future<List<Map<String, dynamic>>> obtenerNotas() async {
-    final db = await initDB();
+    final db = await _initDB();
     // return db.rawQuery(
     //   "SELECT id, contenido FROM NOTAS WHERE titulo='Compras de la semana'",
     // );
@@ -45,7 +58,7 @@ class NotasDatabase {
   }
 
   Future<List<NotaModel>> obtenerNotasModel() async {
-    final db = await initDB();
+    final db = await _initDB();
     List<Map<String, dynamic>> data = await db.query("NOTAS");
     List<NotaModel> notasModelList = data
         .map((e) => NotaModel.fromMap(e))
@@ -55,7 +68,7 @@ class NotasDatabase {
 
   //ACTUALIZAR
   Future<void> actualizarNota(int id, String nuevoContenido) async {
-    final db = await initDB();
+    final db = await _initDB();
     await db.update(
       "NOTAS",
       {"contenido": nuevoContenido},
@@ -66,7 +79,7 @@ class NotasDatabase {
 
   // ELIMINAR
   Future<void> eliminarGasto(int id) async {
-    final db = await initDB();
+    final db = await _initDB();
     await db.delete("NOTAS", where: "id=?", whereArgs: [id]);
   }
 }

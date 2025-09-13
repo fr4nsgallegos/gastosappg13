@@ -10,17 +10,21 @@ class DbExamplePage extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            // ElevatedButton(
+            //   onPressed: () {
+            //     NotasDatabase dbNotas = NotasDatabase();
+            //     dbNotas.initDB();
+            //   },
+            //   child: Text("Crear db"),
+            // ),
             ElevatedButton(
               onPressed: () {
-                NotasDatabase dbNotas = NotasDatabase();
-                dbNotas.initDB();
-              },
-              child: Text("Crear db"),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                NotasDatabase dbNotas = NotasDatabase();
-                dbNotas.insertarNota(
+                // NotasDatabase dbNotas = NotasDatabase();
+                // dbNotas.insertarNota(
+                //   "Tareas a realizar",
+                //   "tarea del curso de flutter, reparar la tv",
+                // );
+                NotasDatabase().insertarNota(
                   "Tareas a realizar",
                   "tarea del curso de flutter, reparar la tv",
                 );
