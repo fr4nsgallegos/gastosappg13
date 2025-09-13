@@ -22,4 +22,18 @@ class NotasDatabase {
     final db = await initDB();
     await db.insert("NOTAS", {"titulo": titulo, "contenido": contenido});
   }
+
+  Future<List<Map<String, dynamic>>> obtenerNotas() async {
+    final db = await initDB();
+    // return db.rawQuery(
+    //   "SELECT id, contenido FROM NOTAS WHERE titulo='Compras de la semana'",
+    // );
+
+    return db.query(
+      "NOTAS",
+      where: "titulo = 'Compras de la semana'",
+      columns: ["id", "contenido"],
+    );
+    // return db.query("NOTAS");
+  }
 }

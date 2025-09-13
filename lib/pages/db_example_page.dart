@@ -20,11 +20,19 @@ class DbExamplePage extends StatelessWidget {
               onPressed: () {
                 NotasDatabase dbNotas = NotasDatabase();
                 dbNotas.insertarNota(
-                  "Compras de la semana",
-                  "comprar pan, huevos, sal y pimienta",
+                  "Tareas a realizar",
+                  "tarea del curso de flutter, reparar la tv",
                 );
               },
               child: Text("Insertar Nota"),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                NotasDatabase dbNotas = NotasDatabase();
+                List<Map<String, dynamic>> notas = await dbNotas.obtenerNotas();
+                print(notas);
+              },
+              child: Text("Obtener notas"),
             ),
           ],
         ),
