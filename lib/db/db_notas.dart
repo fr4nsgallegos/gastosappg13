@@ -18,22 +18,40 @@ class NotasDatabase {
     );
   }
 
+  // INSERTAR
   Future<void> insertarNota(String titulo, String contenido) async {
     final db = await initDB();
     await db.insert("NOTAS", {"titulo": titulo, "contenido": contenido});
   }
 
+  // OBTENER
   Future<List<Map<String, dynamic>>> obtenerNotas() async {
     final db = await initDB();
     // return db.rawQuery(
     //   "SELECT id, contenido FROM NOTAS WHERE titulo='Compras de la semana'",
     // );
-
     return db.query(
       "NOTAS",
       where: "titulo = 'Compras de la semana'",
       columns: ["id", "contenido"],
     );
     // return db.query("NOTAS");
+  }
+
+  //ACTUALIZAR
+  Future<void> actualizarNota(int id, String nuevoContenido) async {
+    final db = await initDB();
+    await db.update(
+      "NOTAS",
+      {"contenido": nuevoContenido},
+      where: "id = ?",
+      whereArgs: [id],
+    );
+  }
+
+  // ELIMINAR
+  Future<void> eliminarGasto(int id) async {
+    final db = await initDB();
+    await db.delete("NOTAS", where: "id=?", whereArgs: [id]);
   }
 }

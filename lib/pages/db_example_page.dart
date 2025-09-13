@@ -34,6 +34,23 @@ class DbExamplePage extends StatelessWidget {
               },
               child: Text("Obtener notas"),
             ),
+            ElevatedButton(
+              onPressed: () async {
+                NotasDatabase dbNotas = NotasDatabase();
+                dbNotas.actualizarNota(
+                  1,
+                  "Comprar Leche, manzanas y mandarinas",
+                );
+              },
+              child: Text("Actualizar la nota 1"),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                NotasDatabase dbNotas = NotasDatabase();
+                dbNotas.eliminarGasto(1);
+              },
+              child: Text("Eliminar la nota 1"),
+            ),
           ],
         ),
       ),
