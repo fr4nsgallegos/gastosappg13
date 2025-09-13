@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gastosappg13/db/db_notas.dart';
+import 'package:gastosappg13/models/nota_model.dart';
 
 class DbExamplePage extends StatelessWidget {
   @override
@@ -50,6 +51,28 @@ class DbExamplePage extends StatelessWidget {
                 dbNotas.eliminarGasto(1);
               },
               child: Text("Eliminar la nota 1"),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                NotasDatabase dbNotas = NotasDatabase();
+
+                NotaModel notaModelAux = NotaModel(
+                  titulo: "titulo de una notamodel",
+                  contenido: "CONTENIDOI DE UNA NOTAMODEL",
+                );
+
+                dbNotas.insertarNotaModel(notaModelAux);
+              },
+              child: Text("Insertar NotaModel"),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                NotasDatabase dbNotas = NotasDatabase();
+
+                List<NotaModel> notas = await dbNotas.obtenerNotasModel();
+                print(notas);
+              },
+              child: Text("Obtener notasModel List"),
             ),
           ],
         ),

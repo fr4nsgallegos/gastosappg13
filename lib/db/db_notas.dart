@@ -1,3 +1,4 @@
+import 'package:gastosappg13/models/nota_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqlite_api.dart';
@@ -24,6 +25,11 @@ class NotasDatabase {
     await db.insert("NOTAS", {"titulo": titulo, "contenido": contenido});
   }
 
+  Future<void> insertarNotaModel(NotaModel notaModel) async {
+    final db = await initDB();
+    await db.insert("NOTAS", notaModel.toMap());
+  }
+
   // OBTENER
   Future<List<Map<String, dynamic>>> obtenerNotas() async {
     final db = await initDB();
@@ -36,6 +42,15 @@ class NotasDatabase {
       columns: ["id", "contenido"],
     );
     // return db.query("NOTAS");
+  }
+
+  Future<List<NotaModel>> obtenerNotasModel() async {
+    final db = await initDB();
+    List<Map<String, dynamic>> data = await db.query("NOTAS");
+    List<NotaModel> notasModelList = data
+        .map((e) => NotaModel.fromMap(e))
+        .toList();
+    return notasModelList;
   }
 
   //ACTUALIZAR
