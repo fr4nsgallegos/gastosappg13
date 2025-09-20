@@ -1,9 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:gastosappg13/widgets/busqueda_widget.dart';
 import 'package:gastosappg13/widgets/item_widget.dart';
+import 'package:gastosappg13/widgets/register_modal_widget.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  void showRegisterModal() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return RegisterModalWidget();
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +31,7 @@ class HomePage extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () {
-                    print("esta tapeando");
+                    showRegisterModal();
                   },
                   child: Container(
                     color: Colors.black,
