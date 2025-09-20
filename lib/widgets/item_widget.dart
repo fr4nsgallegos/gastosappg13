@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gastosappg13/models/gasto_model.dart';
 
 class ItemWidget extends StatelessWidget {
-  const ItemWidget({super.key});
+  GastoModel gastoModel;
+
+  ItemWidget({super.key, required this.gastoModel});
 
   @override
   Widget build(BuildContext context) {
@@ -13,12 +16,12 @@ class ItemWidget extends StatelessWidget {
       ),
       child: ListTile(
         title: Text(
-          "Cine",
+          gastoModel.title,
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
         ),
-        subtitle: Text("2025/09/19"),
+        subtitle: Text(gastoModel.datetime),
         trailing: Text(
-          "S/ 50.0",
+          "S/ ${gastoModel.price}",
           style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
         ),
         leading: Image.asset(

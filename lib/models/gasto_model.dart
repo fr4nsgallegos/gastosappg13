@@ -1,25 +1,25 @@
 class GastoModel {
-  String tittle;
+  String title;
   double price;
   String datetime;
   String type;
 
   GastoModel({
-    required this.tittle,
+    required this.title,
     required this.price,
     required this.datetime,
     required this.type,
   });
 
   factory GastoModel.fromDB(Map<String, dynamic> data) => GastoModel(
-    tittle: data["tittle"],
+    title: data["title"],
     price: data["price"],
     datetime: data["datetime"],
     type: data["type"],
   );
 
   Map<String, dynamic> convertirAMap() => {
-    "title": tittle,
+    "title": title,
     "price": price,
     "datetime": datetime,
     "type": type,

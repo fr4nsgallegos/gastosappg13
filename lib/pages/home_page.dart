@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gastosappg13/db/db_admin_gastos.dart';
+import 'package:gastosappg13/models/gasto_model.dart';
 import 'package:gastosappg13/widgets/busqueda_widget.dart';
 import 'package:gastosappg13/widgets/item_widget.dart';
 import 'package:gastosappg13/widgets/register_modal_widget.dart';
@@ -11,6 +13,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List<GastoModel> gastosList = [];
+
+  Future<void> getDataFromDB() async {
+    gastosList = await DbAdminGastos().obtenerGastos();
+    setState(() {});
+  }
+
   void showRegisterModal() {
     showModalBottomSheet(
       context: context,
@@ -22,7 +31,16 @@ class _HomePageState extends State<HomePage> {
           child: RegisterModalWidget(),
         );
       },
-    );
+    ).then((value) {
+      getDataFromDB();
+    });
+  }
+
+  @override
+  void initState() {
+    getDataFromDB();
+    // TODO: implement initState
+    super.initState();
   }
 
   @override
@@ -86,9 +104,14 @@ class _HomePageState extends State<HomePage> {
                           style: TextStyle(color: Colors.black45, fontSize: 16),
                         ),
                         BusquedaWidget(),
-                        ItemWidget(),
-                        ItemWidget(),
-                        ItemWidget(),
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: gastosList.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return ItemWidget(gastoModel: gastosList[index]);
+                            },
+                          ),
+                        ),
                       ],
                     ),
                   ),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gastosappg13/db/db_admin_gastos.dart';
+import 'package:gastosappg13/models/gasto_model.dart';
 import 'package:gastosappg13/utils/data_general.dart';
 import 'package:gastosappg13/widgets/field_modal_widget.dart';
 import 'package:gastosappg13/widgets/item_type_widget.dart';
@@ -40,52 +42,100 @@ class _RegisterModalWidgetState extends State<RegisterModalWidget> {
     print(dateController.text);
   }
 
+  _buildAddButton() {
+    return Container(
+      margin: EdgeInsets.only(bottom: 16),
+      height: 50,
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: () {
+          GastoModel gastoModel = GastoModel(
+            title: titleController.text,
+            price: double.parse(priceController.text),
+            datetime: dateController.text,
+            type: typeSelected,
+          );
+
+          DbAdminGastos().insertarGasto(gastoModel).then((value) {
+            if (value > 0) {
+              // Se ha insertado correctamente
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  backgroundColor: Colors.cyan,
+                  behavior: SnackBarBehavior.floating,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  content: Text("Se ha registrado correctamente"),
+                ),
+              );
+              Navigator.pop(context);
+            }
+          });
+        },
+        style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+        child: Text("Añadir", style: TextStyle(color: Colors.white)),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(16, 24, 16, 0),
+      padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
       width: double.infinity,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Text("Registra el pago"),
-            SizedBox(height: 24),
-            FieldModalWidget(
-              hint: "Ingresa el título",
-              controller: titleController,
-            ),
-            FieldModalWidget(
-              hint: "Ingresa el monto",
-              controller: priceController,
-              isNumberKeyboard: true,
-            ),
-            FieldModalWidget(
-              hint: "Ingresa la fecha",
-              controller: dateController,
-              function: () {
-                showDateTimePicker();
-              },
-            ),
-            SizedBox(height: 32),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              alignment: WrapAlignment.center,
-              children: types
-                  .map(
-                    (e) => ItemTypeWidget(
-                      data: e,
-                      isSelected: typeSelected == e["name"] ? true : false,
-                      tap: () {
-                        typeSelected = e["name"];
-                        setState(() {});
-                      },
+      child: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Text("Registra el pago", style: TextStyle(fontSize: 24)),
+                  SizedBox(height: 12),
+                  FieldModalWidget(
+                    hint: "Ingresa el título",
+                    controller: titleController,
+                  ),
+                  FieldModalWidget(
+                    hint: "Ingresa el monto",
+                    controller: priceController,
+                    isNumberKeyboard: true,
+                  ),
+                  FieldModalWidget(
+                    hint: "Ingresa la fecha",
+                    controller: dateController,
+                    function: () {
+                      showDateTimePicker();
+                    },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    child: Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      alignment: WrapAlignment.center,
+                      children: types
+                          .map(
+                            (e) => ItemTypeWidget(
+                              data: e,
+                              isSelected: typeSelected == e["name"]
+                                  ? true
+                                  : false,
+                              tap: () {
+                                typeSelected = e["name"];
+                                setState(() {});
+                              },
+                            ),
+                          )
+                          .toList(),
                     ),
-                  )
-                  .toList(),
+                  ),
+                ],
+              ),
             ),
-          ],
-        ),
+          ),
+          _buildAddButton(),
+        ],
       ),
     );
   }
