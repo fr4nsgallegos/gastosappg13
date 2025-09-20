@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gastosappg13/db/db_admin_gastos.dart';
+import 'package:gastosappg13/generated/l10n.dart';
 import 'package:gastosappg13/models/gasto_model.dart';
 import 'package:gastosappg13/widgets/busqueda_widget.dart';
 import 'package:gastosappg13/widgets/item_widget.dart';
@@ -99,6 +100,8 @@ class _HomePageState extends State<HomePage> {
                             fontSize: 24,
                           ),
                         ),
+                        Text(S.of(context).hello),
+                        Text(S.of(context).helloAlguien("Jhonny")),
                         Text(
                           "Gestiona tus gastos de mejor forma",
                           style: TextStyle(color: Colors.black45, fontSize: 16),

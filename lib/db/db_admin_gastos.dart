@@ -15,9 +15,7 @@ class DbAdminGastos {
   static final DbAdminGastos _instance = DbAdminGastos._();
 
   Future<Database?> _checkDatabase() async {
-    if (myDatabase == null) {
-      myDatabase = await _initDatabase();
-    }
+    myDatabase ??= await _initDatabase();
     return myDatabase;
   }
 
