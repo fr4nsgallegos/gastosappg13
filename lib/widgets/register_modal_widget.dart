@@ -45,45 +45,47 @@ class _RegisterModalWidgetState extends State<RegisterModalWidget> {
     return Container(
       padding: EdgeInsets.fromLTRB(16, 24, 16, 0),
       width: double.infinity,
-      child: Column(
-        children: [
-          Text("Registra el pago"),
-          SizedBox(height: 24),
-          FieldModalWidget(
-            hint: "Ingresa el título",
-            controller: titleController,
-          ),
-          FieldModalWidget(
-            hint: "Ingresa el monto",
-            controller: priceController,
-            isNumberKeyboard: true,
-          ),
-          FieldModalWidget(
-            hint: "Ingresa la fecha",
-            controller: dateController,
-            function: () {
-              showDateTimePicker();
-            },
-          ),
-          SizedBox(height: 32),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            alignment: WrapAlignment.center,
-            children: types
-                .map(
-                  (e) => ItemTypeWidget(
-                    data: e,
-                    isSelected: typeSelected == e["name"] ? true : false,
-                    tap: () {
-                      typeSelected = e["name"];
-                      setState(() {});
-                    },
-                  ),
-                )
-                .toList(),
-          ),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Text("Registra el pago"),
+            SizedBox(height: 24),
+            FieldModalWidget(
+              hint: "Ingresa el título",
+              controller: titleController,
+            ),
+            FieldModalWidget(
+              hint: "Ingresa el monto",
+              controller: priceController,
+              isNumberKeyboard: true,
+            ),
+            FieldModalWidget(
+              hint: "Ingresa la fecha",
+              controller: dateController,
+              function: () {
+                showDateTimePicker();
+              },
+            ),
+            SizedBox(height: 32),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              alignment: WrapAlignment.center,
+              children: types
+                  .map(
+                    (e) => ItemTypeWidget(
+                      data: e,
+                      isSelected: typeSelected == e["name"] ? true : false,
+                      tap: () {
+                        typeSelected = e["name"];
+                        setState(() {});
+                      },
+                    ),
+                  )
+                  .toList(),
+            ),
+          ],
+        ),
       ),
     );
   }
